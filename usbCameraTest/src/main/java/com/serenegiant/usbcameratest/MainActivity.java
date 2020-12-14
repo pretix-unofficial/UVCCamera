@@ -23,9 +23,13 @@
 
 package com.serenegiant.usbcameratest;
 
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
+import android.graphics.YuvImage;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +39,7 @@ import android.widget.Toast;
 import com.serenegiant.common.BaseActivity;
 import com.serenegiant.usb.CameraDialog;
 import com.serenegiant.usb.IButtonCallback;
+import com.serenegiant.usb.IFrameCallback;
 import com.serenegiant.usb.IStatusCallback;
 import com.serenegiant.usb.USBMonitor;
 import com.serenegiant.usb.USBMonitor.OnDeviceConnectListener;
@@ -42,9 +47,13 @@ import com.serenegiant.usb.USBMonitor.UsbControlBlock;
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.widget.SimpleUVCCameraTextureView;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
-public final class MainActivity extends BaseActivity implements CameraDialog.CameraDialogParent {
+public final class MainActivity extends BaseActivity implements CameraDialog.CameraDialogParent, IFrameCallback {
 
 	private final Object mSync = new Object();
     // for accessing USB and USB camera
@@ -205,6 +214,7 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 						camera.setPreviewDisplay(mPreviewSurface);
 //						camera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_RGB565/*UVCCamera.PIXEL_FORMAT_NV21*/);
 						camera.startPreview();
+						camera.setFrameCallback(MainActivity.this, UVCCamera.PIXEL_FORMAT_NV21);
 					}
 					synchronized (mSync) {
 						mUVCCamera = camera;
@@ -267,6 +277,33 @@ public final class MainActivity extends BaseActivity implements CameraDialog.Cam
 					// FIXME
 				}
 			}, 0);
+		}
+	}
+
+	private static boolean frameSaved = false;
+
+	@Override
+	public void onFrame(ByteBuffer frame) {
+		Log.i("GILES", "onFrame called");
+		if (frameSaved) {
+			return;
+		}
+		try {
+			FileOutputStream fos = new FileOutputStream(getFilesDir() + "/test.jpg");
+			byte[] bytes = new byte[frame.remaining()];
+			frame.get(bytes, 0, bytes.length);
+			int offsetColorData = (2 * bytes.length) / 3;
+			for (int i = offsetColorData; i < bytes.length; i = i + 2) {
+				byte tmp = bytes[i];
+				bytes[i] = bytes[i+1];
+				bytes[i+1] = tmp;
+			}
+			YuvImage yuvImage = new YuvImage(bytes, ImageFormat.NV21, 640, 480, null);
+			yuvImage.compressToJpeg(new Rect(0, 0, 640, 480), 85, fos);
+			fos.close();
+			frameSaved = true;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
