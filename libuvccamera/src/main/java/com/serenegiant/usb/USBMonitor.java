@@ -43,6 +43,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
@@ -654,12 +655,16 @@ public final class USBMonitor {
 		sb.append(device.getDeviceClass());			sb.append("#");	// API >= 12
 		sb.append(device.getDeviceSubclass());		sb.append("#");	// API >= 12
 		sb.append(device.getDeviceProtocol());						// API >= 12
-		if (!TextUtils.isEmpty(serial)) {
+		// Anything above API-Level 28 designates the USB device's serial number as PII.
+		// Requesting it without having been granted device access permissions will result in a crash.
+		if (!TextUtils.isEmpty(serial) && Build.VERSION.SDK_INT < 28) {
 			sb.append("#");	sb.append(serial);
 		}
 		if (useNewAPI && BuildCheck.isAndroid5()) {
 			sb.append("#");
-			if (TextUtils.isEmpty(serial)) {
+			// Anything above API-Level 28 designates the USB device's serial number as PII.
+			// Requesting it without having been granted device access permissions will result in a crash.
+			if (TextUtils.isEmpty(serial) && Build.VERSION.SDK_INT < 28) {
 				sb.append(device.getSerialNumber());	sb.append("#");	// API >= 21
 			}
 			sb.append(device.getManufacturerName());	sb.append("#");	// API >= 21
