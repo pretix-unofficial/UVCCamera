@@ -659,7 +659,7 @@ public final class USBMonitor {
 		}
 		if (useNewAPI && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			sb.append("#");
-			if (TextUtils.isEmpty(serial)) {
+			if (TextUtils.isEmpty(serial) && Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
 				sb.append(device.getSerialNumber());	sb.append("#");	// API >= 21
 			}
 			sb.append(device.getManufacturerName());	sb.append("#");	// API >= 21
