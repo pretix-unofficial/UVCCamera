@@ -9,20 +9,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '19'
-      #- uses: android-actions/setup-android@v2
-      #- name: Install Android NDK
-      #  run: sdkmanager "ndk;25.2.9519653"
       - uses: nttld/setup-ndk@v1
         with:
+          # NOTE: this must match NDK version in build.gradle `ext.ndkVersion`
           ndk-version: r25c
       - uses: gradle/gradle-build-action@v2
-      #- name: Install NDK
-      #  run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;25.2.9519653" --sdk_root=${ANDROID_SDK_ROOT}
       - run: ./gradlew build
-      #- name: Upload build reports
-      #  uses: actions/upload-artifact@v3
-      #  with:
-      #    name: build-reports
-      #    path: build/reports/
-
+      - uses: actions/upload-artifact@v3
+        with:
+          name: libuvccamera
+          path: libuvccamera/build/outputs/aar/*.aar
+      - uses: actions/upload-artifact@v3
+        with:
+          name: usbCameraCommon
+          path: usbCameraCommon/build/outputs/aar/*.aar
 
