@@ -117,6 +117,8 @@ LOCAL_SRC_FILES += \
 	jdatadst-tj.c \
 	jdatasrc-tj.c \
 
+LOCAL_ASMFLAGS += -DPIC
+
 ifeq ($(TARGET_ARCH_ABI),armeabi)
 #NEONを有効にする時
 #LOCAL_ARM_NEON := true

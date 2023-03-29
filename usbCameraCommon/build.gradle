@@ -25,7 +25,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion versionCompiler
-   	buildToolsVersion versionBuildTool
 
     namespace 'com.serenegiant.usbcameracommon'
 
