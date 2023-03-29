@@ -26,6 +26,7 @@ package com.serenegiant.common;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,7 +38,6 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.serenegiant.dialog.MessageDialogFragmentV4;
-import com.serenegiant.utils.BuildCheck;
 import com.serenegiant.utils.HandlerThreadHandler;
 import com.serenegiant.utils.PermissionCheck;
 
@@ -218,7 +218,7 @@ public class BaseActivity extends AppCompatActivity
 	public void onMessageDialogResult(final MessageDialogFragmentV4 dialog, final int requestCode, final String[] permissions, final boolean result) {
 		if (result) {
 			// メッセージダイアログでOKを押された時はパーミッション要求する
-			if (BuildCheck.isMarshmallow()) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 				requestPermissions(permissions, requestCode);
 				return;
 			}

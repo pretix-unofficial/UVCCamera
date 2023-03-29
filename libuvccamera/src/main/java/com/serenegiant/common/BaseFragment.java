@@ -27,6 +27,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,7 +38,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import com.serenegiant.dialog.MessageDialogFragment;
-import com.serenegiant.utils.BuildCheck;
 import com.serenegiant.utils.HandlerThreadHandler;
 import com.serenegiant.utils.PermissionCheck;
 
@@ -226,7 +226,7 @@ public class BaseFragment extends Fragment
 	public void onMessageDialogResult(final MessageDialogFragment dialog, final int requestCode, final String[] permissions, final boolean result) {
 		if (result) {
 			// メッセージダイアログでOKを押された時はパーミッション要求する
-			if (BuildCheck.isMarshmallow()) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 				requestPermissions(permissions, requestCode);
 				return;
 			}
