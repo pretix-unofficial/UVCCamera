@@ -1,7 +1,11 @@
 UVCCamera
 =========
 
-library and sample to access to UVC web camera on non-rooted Android device
+library to access to UVC web camera on non-rooted Android device
+
+Forked from [saki4510t/UVCCamera](https://github.com/saki4510t/UVCCamera), to remove samples, update build process and add `.aar` building by GitHub Actions.
+
+---
 
 Copyright (c) 2014-2017 saki t_saki@serenegiant.com
 
