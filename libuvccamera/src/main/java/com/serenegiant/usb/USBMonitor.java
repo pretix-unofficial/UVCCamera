@@ -49,6 +49,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
+import androidx.core.app.PendingIntentCompat;
+import androidx.core.content.ContextCompat;
+
 import com.serenegiant.utils.HandlerThreadHandler;
 
 public final class USBMonitor {
@@ -167,15 +170,13 @@ public final class USBMonitor {
 			if (DEBUG) Log.i(TAG, "register:");
 			final Context context = mWeakContext.get();
 			if (context != null) {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-					mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_MUTABLE);
-				} else {
-					mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
-				}
+				Intent intent = new Intent(ACTION_USB_PERMISSION);
+				intent.setPackage(context.getPackageName());
+				mPermissionIntent = PendingIntentCompat.getBroadcast(context, 0, intent, 0, true);
 				final IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 				// ACTION_USB_DEVICE_ATTACHED never comes on some devices so it should not be added here
 				filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-				context.registerReceiver(mUsbReceiver, filter);
+				ContextCompat.registerReceiver(context, mUsbReceiver, filter, ContextCompat.RECEIVER_EXPORTED);
 			}
 			// start connection check
 			mDeviceCounts = 0;

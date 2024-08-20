@@ -34,7 +34,7 @@ android {
 	}
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 19
 		targetSdkVersion versionTarget
     }
 
@@ -65,7 +65,8 @@ dependencies {
     implementation fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
 
 	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-	implementation 'androidx.annotation:annotation:1.6.0'
+	implementation 'androidx.core:core:1.13.1'
+	implementation 'androidx.annotation:annotation:1.8.2'
 
 	implementation("com.serenegiant:common:${commonLibVersion}") {
 		exclude module: 'support-v4'
