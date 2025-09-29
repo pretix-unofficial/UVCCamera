@@ -36,7 +36,7 @@ android {
    	}
 
     defaultConfig {
-        minSdk 19
+        minSdk 21
         targetSdk versionTarget
     }
 

@@ -15,7 +15,7 @@ jobs:
       - uses: nttld/setup-ndk@v1
         with:
           # NOTE: this must match NDK version in build.gradle `ext.ndkVersion`
-          ndk-version: r25c
+          ndk-version: r28c
       - uses: gradle/gradle-build-action@v2
       - run: ./gradlew build
       - uses: actions/upload-artifact@v3

@@ -24,10 +24,10 @@ task clean(type: Delete) {
 }
 
 ext {
-	commonLibVersion= '2.12.4'
-	ndkVersion = '25.2.9519653'
-	versionCompiler = 33
-	versionTarget = 33
+	commonLibVersion = '2.12.4'
+	ndkVersion = '28.2.13676358'
+	versionCompiler = 35
+	versionTarget = 35
 	versionNameString = '1.0.0'
 	javaSourceCompatibility = JavaVersion.VERSION_11
 	javaTargetCompatibility = JavaVersion.VERSION_11
