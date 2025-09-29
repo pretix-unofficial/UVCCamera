@@ -7,8 +7,8 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '19'
@@ -16,18 +16,18 @@ jobs:
         with:
           # NOTE: this must match NDK version in build.gradle `ext.ndkVersion`
           ndk-version: r28c
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/actions/setup-gradle@v4
       - run: ./gradlew build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: libuvccamera
           path: libuvccamera/build/outputs/aar/*.aar
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: usbCameraCommon
           path: usbCameraCommon/build/outputs/aar/*.aar
-      - uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
           files: |
             libuvccamera/build/outputs/aar/*.aar
