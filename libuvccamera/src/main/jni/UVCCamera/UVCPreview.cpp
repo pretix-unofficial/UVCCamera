@@ -864,6 +864,9 @@ void UVCPreview::do_capture_callback(JNIEnv *env, uvc_frame_t *frame) {
 					goto SKIP;
 				}
 			}
+            if (iframecallback_fields.onFrame == NULL) {
+                goto SKIP;
+            }
 			jobject buf = env->NewDirectByteBuffer(callback_frame->data, callbackPixelBytes);
 			env->CallVoidMethod(mFrameCallbackObj, iframecallback_fields.onFrame, buf);
 			env->ExceptionClear();
