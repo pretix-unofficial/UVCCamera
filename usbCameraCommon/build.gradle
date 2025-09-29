@@ -21,10 +21,12 @@
  *  may have a different license, see the respective files.
  */
 
-apply plugin: 'com.android.library'
+plugins {
+    id "com.android.library"
+}
 
 android {
-    compileSdkVersion versionCompiler
+    compileSdk = versionCompiler
 
     namespace 'com.serenegiant.usbcameracommon'
 
@@ -34,9 +36,8 @@ android {
    	}
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion versionTarget
-
+        minSdk 19
+        targetSdk versionTarget
     }
 
     buildTypes {

@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+	id "com.android.library"
+}
+
 /*
  *  UVCCamera
  *  library and sample to access to UVC web camera on non-rooted Android device
@@ -23,7 +26,7 @@ apply plugin: 'com.android.library'
  */
 
 android {
-	compileSdkVersion versionCompiler
+	compileSdk = versionCompiler
 	ndkVersion rootProject.ext.ndkVersion
 
 	namespace 'com.serenegiant.uvccamera'
@@ -34,8 +37,8 @@ android {
 	}
 
     defaultConfig {
-        minSdkVersion 19
-		targetSdkVersion versionTarget
+        minSdk 19
+		targetSdk versionTarget
     }
 
     buildTypes {
@@ -65,7 +68,7 @@ dependencies {
     implementation fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
 
 	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-	implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.core:core:1.13.1'
 	implementation 'androidx.annotation:annotation:1.8.2'
 
 	implementation("com.serenegiant:common:${commonLibVersion}") {
