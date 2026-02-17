@@ -48,7 +48,7 @@ public class MediaMuxerWrapper {
 	private final MediaMuxer mMediaMuxer;	// API >= 18
 	private int mEncoderCount, mStatredCount;
 	private boolean mIsStarted;
-	private MediaEncoder mVideoEncoder, mAudioEncoder;
+	private MediaEncoder mVideoEncoder;
 
 	/**
 	 * Constructor
@@ -74,24 +74,17 @@ public class MediaMuxerWrapper {
 	public void prepare() throws IOException {
 		if (mVideoEncoder != null)
 			mVideoEncoder.prepare();
-		if (mAudioEncoder != null)
-			mAudioEncoder.prepare();
 	}
 
 	public void startRecording() {
 		if (mVideoEncoder != null)
 			mVideoEncoder.startRecording();
-		if (mAudioEncoder != null)
-			mAudioEncoder.startRecording();
 	}
 
 	public void stopRecording() {
 		if (mVideoEncoder != null)
 			mVideoEncoder.stopRecording();
 		mVideoEncoder = null;
-		if (mAudioEncoder != null)
-			mAudioEncoder.stopRecording();
-		mAudioEncoder = null;
 	}
 
 	public synchronized boolean isStarted() {
@@ -102,7 +95,7 @@ public class MediaMuxerWrapper {
 //**********************************************************************
 	/**
 	 * assign encoder to this calss. this is called from encoder.
-	 * @param encoder instance of MediaVideoEncoder or MediaAudioEncoder
+	 * @param encoder instance of MediaVideoEncoder
 	 */
 	/*package*/ void addEncoder(final MediaEncoder encoder) {
 		if (encoder instanceof MediaVideoEncoder) {
@@ -117,13 +110,9 @@ public class MediaMuxerWrapper {
 			if (mVideoEncoder != null)
 				throw new IllegalArgumentException("Video encoder already added.");
 			mVideoEncoder = encoder;
-		} else if (encoder instanceof MediaAudioEncoder) {
-			if (mAudioEncoder != null)
-				throw new IllegalArgumentException("Video encoder already added.");
-			mAudioEncoder = encoder;
 		} else
 			throw new IllegalArgumentException("unsupported encoder");
-		mEncoderCount = (mVideoEncoder != null ? 1 : 0) + (mAudioEncoder != null ? 1 : 0);
+		mEncoderCount = (mVideoEncoder != null ? 1 : 0);
 	}
 
 	/**

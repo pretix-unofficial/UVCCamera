@@ -40,7 +40,6 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
-import com.serenegiant.encoder.MediaAudioEncoder;
 import com.serenegiant.encoder.MediaEncoder;
 import com.serenegiant.encoder.MediaMuxerWrapper;
 import com.serenegiant.encoder.MediaSurfaceEncoder;
@@ -557,10 +556,6 @@ abstract class AbstractUVCCameraHandler extends Handler {
 				default:
 					new MediaSurfaceEncoder(muxer, getWidth(), getHeight(), mMediaEncoderListener);
 					break;
-				}
-				if (true) {
-					// for audio capturing
-					new MediaAudioEncoder(muxer, mMediaEncoderListener);
 				}
 				muxer.prepare();
 				muxer.startRecording();
