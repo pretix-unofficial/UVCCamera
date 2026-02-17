@@ -24,7 +24,7 @@ task clean(type: Delete) {
 }
 
 ext {
-	commonLibVersion = '2.12.4'
+	commonLibVersion = '4.7.0'
 	ndkVersion = '28.2.13676358'
 	versionCompiler = 35
 	versionTarget = 35
